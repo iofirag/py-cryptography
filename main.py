@@ -1,5 +1,6 @@
 import os
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+encoding = 'utf-8'
 key = os.urandom(32)
 iv = os.urandom(16)
 cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
@@ -14,21 +15,18 @@ def encrypt(msg):
 def decrypt(encrypt_msg):
     decryptor = cipher.decryptor()
     decrypt_byte_msg = decryptor.update(encrypt_msg) + decryptor.finalize()
-    return decrypt_byte_msg.decode('utf-8')  # decode byte to string
+    return decrypt_byte_msg.decode(encoding)  # decode byte to string
 
 
 def example():
     msg = 'a secret message'
-    # encrypt
-    encrypted_msg = encrypt(msg)
+    # Encrypt & Decrypt
+    encrypted_msg = encrypt(msg)            # encrypt
+    decrypted_msg = decrypt(encrypted_msg)  # decrypt
+    # Results
     print('encrypted_msg=', encrypted_msg, type(encrypted_msg))
-
-    # decrypt
-    decrypted_msg = decrypt(encrypted_msg)
     print('decrypted_msg=', decrypted_msg, type(decrypted_msg))
-
-    # test
-    print('success=', msg==decrypted_msg)
+    print('Test=', 'Success' if msg==decrypted_msg else 'Fail')
 
 
 if __name__ == "__main__":
