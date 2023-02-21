@@ -7,4 +7,5 @@ Validate versions:
 
 Run:
 
-    pip install cryptography
+    $ pip install cryptography
+    $ py main.py
